@@ -15,7 +15,11 @@ class StartThreadActivity : AppCompatActivity() {
         setContentView(R.layout.activity_start_thread)
 
         dataBinding.btnStartThread.setOnClickListener {
-            ThreadV1(5).start()
+            //ThreadV1(5).start()
+
+
+            //ThreadV2 class implements the Runnable interface. Thread class take the Runnable type of object in its constructor. That's why we implements Runnable interface in ThreadV2 class.
+            Thread(ThreadV2(5)).start()
         }
     }
 }
