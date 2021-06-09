@@ -39,7 +39,7 @@ class StartThreadActivity : AppCompatActivity() {
         dataBinding.btnStartTask.setOnClickListener {
 
             //made a handler on UI thread which is associated with the looper of the background Thread
-             var handlerThreadOnUIThread = Handler(backgroundThread.handler.looper)
+             var handlerThreadOnUIThread = Handler(Looper.getMainLooper())
             //handler of that particular thread/looper will post the task to the message queue of that looper
             backgroundThread.handler.post(object : Runnable {
                 override fun run() {
