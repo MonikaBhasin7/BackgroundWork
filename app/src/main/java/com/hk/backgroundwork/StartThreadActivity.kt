@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
 import android.util.AttributeSet
 import android.view.View
+import androidx.databinding.DataBindingUtil
 import com.hk.backgroundwork.HandlerLooper.BackgroundThread
 import com.hk.backgroundwork.databinding.ActivityStartThreadBinding
 
@@ -19,6 +21,7 @@ class StartThreadActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_thread)
 
+        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_start_thread)
         dataBinding.btnStartThread.setOnClickListener {
             //ThreadV1(5).start()
 
@@ -33,12 +36,10 @@ class StartThreadActivity : AppCompatActivity() {
             backgroundThread.handler.looper.quit()
         }
 
-
         dataBinding.btnStartTask.setOnClickListener {
 
             //made a handler on UI thread which is associated with the looper of the background Thread
              var handlerThreadOnUIThread = Handler(backgroundThread.handler.looper)
-
             //handler of that particular thread/looper will post the task to the message queue of that looper
             backgroundThread.handler.post(object : Runnable {
                 override fun run() {
@@ -46,6 +47,13 @@ class StartThreadActivity : AppCompatActivity() {
                         println("run : $i")
                         SystemClock.sleep(1000)
                     }
+
+                    handlerThreadOnUIThread.post(object : Runnable {
+                        override fun run() {
+                            dataBinding.tvTaskDone.text = "Task Done"
+                        }
+
+                    })
                 }
             })
         }

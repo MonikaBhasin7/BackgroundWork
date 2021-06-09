@@ -38,5 +38,14 @@
             app:layout_constraintEnd_toEndOf="@+id/btn_stop_thread"
             app:layout_constraintStart_toStartOf="@+id/btn_stop_thread"
             tools:layout_editor_absoluteY="243dp" />
+
+        <TextView
+            android:id="@+id/tv_task_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Running"
+            app:layout_constraintEnd_toEndOf="@+id/btn_start_task"
+            app:layout_constraintStart_toStartOf="@+id/btn_start_task"
+            tools:layout_editor_absoluteY="374dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
