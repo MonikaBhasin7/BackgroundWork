@@ -36,6 +36,21 @@ class StartThreadActivity : AppCompatActivity() {
             backgroundThread.handler.looper.quit()
         }
 
+
+        var customizedThread = CustomizedThread()
+        customizedThread.start()
+        dataBinding.btnStartCustomizedThread.setOnClickListener {
+            customizedThread.addTask(object : Runnable {
+                override fun run() {
+                    for(i in 1..4) {
+                        println("run : $i")
+                        SystemClock.sleep(1000)
+                    }
+                }
+
+            })
+        }
+
         dataBinding.btnStartTask.setOnClickListener {
 
             //made a handler on UI thread which is associated with the looper of the background Thread
