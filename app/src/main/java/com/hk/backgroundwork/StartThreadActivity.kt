@@ -28,7 +28,6 @@ class StartThreadActivity : AppCompatActivity() {
 
             //ThreadV2 class implements the Runnable interface. Thread class take the Runnable type of object in its constructor. That's why we implements Runnable interface in ThreadV2 class.
             //Thread(ThreadV2(5)).start()
-
             backgroundThread.start()
         }
 
