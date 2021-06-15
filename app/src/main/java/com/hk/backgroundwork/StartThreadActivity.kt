@@ -1,20 +1,23 @@
 package com.hk.backgroundwork
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.content.BroadcastReceiver
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
-import android.util.AttributeSet
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.hk.backgroundwork.HandlerLooper.BackgroundThread
+import com.hk.backgroundwork.broadcastReceiver.BroadCastReceiver
 import com.hk.backgroundwork.databinding.ActivityStartThreadBinding
+
 
 class StartThreadActivity : AppCompatActivity() {
 
     lateinit var dataBinding: ActivityStartThreadBinding
+    lateinit var broadCastReceiver: BroadCastReceiver
 
     private var backgroundThread = BackgroundThread()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +44,7 @@ class StartThreadActivity : AppCompatActivity() {
         dataBinding.btnStartCustomizedThread.setOnClickListener {
             customizedThread.addTask(object : Runnable {
                 override fun run() {
-                    for(i in 1..4) {
+                    for (i in 1..4) {
                         println("run : $i")
                         SystemClock.sleep(1000)
                     }
@@ -57,7 +60,7 @@ class StartThreadActivity : AppCompatActivity() {
             //handler of that particular thread/looper will post the task to the message queue of that looper
             backgroundThread.handler.post(object : Runnable {
                 override fun run() {
-                    for(i in 1..4) {
+                    for (i in 1..4) {
                         println("run : $i")
                         SystemClock.sleep(1000)
                     }
@@ -71,5 +74,20 @@ class StartThreadActivity : AppCompatActivity() {
                 }
             })
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        //Dynamic Broadcast Receiver
+        broadCastReceiver = BroadCastReceiver()
+        val intentFilter = IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+        registerReceiver(broadCastReceiver, intentFilter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        unregisterReceiver(broadCastReceiver);
     }
 }
