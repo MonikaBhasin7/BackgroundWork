@@ -1,6 +1,5 @@
 package com.hk.backgroundwork
 
-import android.content.BroadcastReceiver
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
@@ -74,6 +73,11 @@ class StartThreadActivity : AppCompatActivity() {
                 }
             })
         }
+        dataBinding.btnSendBroadcast.setOnClickListener {
+            val intent = Intent("monika.broadcast")
+            intent.putExtra("monika.broadcast.data", "Broadcast received")
+            sendBroadcast(intent)
+        }
     }
 
     override fun onStart() {
@@ -81,8 +85,10 @@ class StartThreadActivity : AppCompatActivity() {
 
         //Dynamic Broadcast Receiver
         broadCastReceiver = BroadCastReceiver()
-        val intentFilter = IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+        var intentFilter = IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)
         registerReceiver(broadCastReceiver, intentFilter)
+
+        registerReceiver(broadCastReceiver, IntentFilter("monika.broadcast"))
     }
 
     override fun onStop() {
