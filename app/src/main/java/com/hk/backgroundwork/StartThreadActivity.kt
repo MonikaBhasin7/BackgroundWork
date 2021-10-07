@@ -9,6 +9,7 @@ import android.os.SystemClock
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.hk.backgroundwork.HandlerLooper.BackgroundThread
+import com.hk.backgroundwork.HandlerLooperAgain.ThreadOne
 import com.hk.backgroundwork.broadcastReceiver.BroadCastReceiver
 import com.hk.backgroundwork.databinding.ActivityStartThreadBinding
 
@@ -19,6 +20,7 @@ class StartThreadActivity : AppCompatActivity() {
     lateinit var broadCastReceiver: BroadCastReceiver
 
     private var backgroundThread = BackgroundThread()
+    private var threadOne = ThreadOne()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_thread)
@@ -77,6 +79,15 @@ class StartThreadActivity : AppCompatActivity() {
             val intent = Intent("monika.broadcast")
             intent.putExtra("monika.broadcast.data", "Broadcast received")
             sendBroadcast(intent)
+        }
+
+        threadOne.start()
+        dataBinding.exampleHandlerLooper.setOnClickListener {
+            threadOne.threadOneHandler?.post(object : Runnable {
+                override fun run() {
+                    println("ThreadOne - Hare Krsna")
+                }
+            })
         }
     }
 
