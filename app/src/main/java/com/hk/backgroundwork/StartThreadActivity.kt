@@ -1,5 +1,6 @@
 package com.hk.backgroundwork
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
@@ -12,6 +13,8 @@ import com.hk.backgroundwork.HandlerLooper.BackgroundThread
 import com.hk.backgroundwork.HandlerLooperAgain.ThreadOne
 import com.hk.backgroundwork.broadcastReceiver.BroadCastReceiver
 import com.hk.backgroundwork.databinding.ActivityStartThreadBinding
+import android.app.PendingIntent
+import android.app.PendingIntent.CanceledException
 
 
 class StartThreadActivity : AppCompatActivity() {
@@ -21,6 +24,7 @@ class StartThreadActivity : AppCompatActivity() {
 
     private var backgroundThread = BackgroundThread()
     private var threadOne = ThreadOne()
+    @SuppressLint("UnspecifiedImmutableFlag")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_thread)
@@ -88,6 +92,18 @@ class StartThreadActivity : AppCompatActivity() {
                     println("ThreadOne - Hare Krsna")
                 }
             })
+        }
+
+        dataBinding.pendingIntent.setOnClickListener {
+            val intent = Intent(this, FirstActivity::class.java)
+            val pendingIntent =
+                PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+            try {
+                pendingIntent.send()
+            } catch (e: CanceledException) {
+                e.printStackTrace()
+            }
+
         }
     }
 
