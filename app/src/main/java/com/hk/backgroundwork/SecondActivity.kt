@@ -10,38 +10,29 @@ import android.os.IBinder
 import androidx.databinding.DataBindingUtil
 import com.hk.backgroundwork.Service.BoundService
 import com.hk.backgroundwork.databinding.ActivityFirstBinding
-import com.hk.backgroundwork.databinding.ActivityStartThreadBinding
+import com.hk.backgroundwork.databinding.ActivitySecondBinding
 
-class FirstActivity : AppCompatActivity() {
+class SecondActivity : AppCompatActivity() {
+
     private lateinit var mService: BoundService
     private var mBound : Boolean = false
-    private var dataBinding: ActivityFirstBinding? = null
+    private var dataBinding: ActivitySecondBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_first)
-        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_first)
+        setContentView(R.layout.activity_second)
+        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_second)
         bindService(Intent(this, BoundService::class.java), connection, Context.BIND_AUTO_CREATE)
-        dataBinding?.btnSecondActiivty?.setOnClickListener {
-            startActivity(Intent(this, SecondActivity::class.java))
-        }
     }
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             mService = (service as BoundService.BoundServiceBinder).getService()
             mBound = true
-            dataBinding?.btnGenerate?.setOnClickListener {
-                mService.generateNumber()
-            }
+            dataBinding?.tvText?.text = mService.number.toString()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
             mBound = false
         }
-    }
-    override fun onDestroy() {
-        super.onDestroy()
-        unbindService(connection)
-        mBound = false
     }
 }

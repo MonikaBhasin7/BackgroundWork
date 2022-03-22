@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BackgroundWork">
         <activity
+            android:name=".SecondActivity"
+            android:exported="true" />
+        <activity
             android:name=".FirstActivity"
             android:exported="true" />
         <activity android:name=".StartThreadActivity">
@@ -28,6 +31,14 @@
                 <action android:name="monika.broadcast" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".Service.BoundService"
+            android:enabled="true" />
+
+        <service
+            android:name=".Service.ForegroundService"
+            android:enabled="true" />
     </application>
 
 </manifest>
